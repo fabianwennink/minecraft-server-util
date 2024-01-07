@@ -52,7 +52,7 @@ function status(host, port = 25565, options) {
                     port = srvRecord.port;
                 }
             }
-            const protocol = (_b = options === null || options === void 0 ? void 0 : options.protocol) !== null && _b !== void 0 ? _b : -1;
+            const protocol = (_b = options === null || options === void 0 ? void 0 : options.protocol) !== null && _b !== void 0 ? _b : 47;
             yield socket.connect({ host, port, timeout: (_c = options === null || options === void 0 ? void 0 : options.timeout) !== null && _c !== void 0 ? _c : 1000 * 5 });
             // Handshake packet
             // https://wiki.vg/Server_List_Ping#Handshake
