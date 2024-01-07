@@ -49,13 +49,15 @@ export function status(host: string, port = 25565, options?: JavaStatusOptions):
 				}
 			}
 
+			const protocol = options?.protocol ?? -1;
+
 			await socket.connect({ host, port, timeout: options?.timeout ?? 1000 * 5 });
 
 			// Handshake packet
 			// https://wiki.vg/Server_List_Ping#Handshake
 			{
 				socket.writeVarInt(0x00);
-				socket.writeVarInt(options?.protocol ?? -1);
+				socket.writeVarInt(protocol);
 				socket.writeStringVarInt(host);
 				socket.writeUInt16BE(port);
 				socket.writeVarInt(1);
@@ -125,7 +127,7 @@ export function status(host: string, port = 25565, options?: JavaStatusOptions):
 			resolve({
 				version: {
 					name: response.version.name,
-					protocol: response.version.protocol
+					protocol: response.version.protocol ?? protocol,
 				},
 				players: {
 					online: response.players.online,
