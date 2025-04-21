@@ -93,30 +93,30 @@ export function status(host: string, port = 25565, options?: JavaStatusOptions):
 				}
 			}
 
-			const payload = crypto.randomBytes(8).readBigInt64BE();
-
-			// Ping packet
-			// https://wiki.vg/Server_List_Ping#Ping
-			{
-				socket.writeVarInt(0x01);
-				socket.writeInt64BE(payload);
-				await socket.flush();
-			}
-
-			const pingStart = Date.now();
-
-			// Pong packet
-			// https://wiki.vg/Server_List_Ping#Pong
-			{
-				const packetLength = await socket.readVarInt();
-				await socket.ensureBufferedData(packetLength);
-
-				const packetType = await socket.readVarInt();
-				if (packetType !== 0x01) throw new Error('Expected server to send packet type 0x01, received ' + packetType);
-
-				const receivedPayload = await socket.readInt64BE();
-				if (receivedPayload !== payload) throw new Error('Ping payload did not match received payload');
-			}
+			// const payload = crypto.randomBytes(8).readBigInt64BE();
+			//
+			// // Ping packet
+			// // https://wiki.vg/Server_List_Ping#Ping
+			// {
+			// 	socket.writeVarInt(0x01);
+			// 	socket.writeInt64BE(payload);
+			// 	await socket.flush();
+			// }
+			//
+			// const pingStart = Date.now();
+			//
+			// // Pong packet
+			// // https://wiki.vg/Server_List_Ping#Pong
+			// {
+			// 	const packetLength = await socket.readVarInt();
+			// 	await socket.ensureBufferedData(packetLength);
+			//
+			// 	const packetType = await socket.readVarInt();
+			// 	if (packetType !== 0x01) throw new Error('Expected server to send packet type 0x01, received ' + packetType);
+			//
+			// 	const receivedPayload = await socket.readInt64BE();
+			// 	if (receivedPayload !== payload) throw new Error('Ping payload did not match received payload');
+			// }
 
 			const motd = parse(response.description);
 
@@ -141,7 +141,8 @@ export function status(host: string, port = 25565, options?: JavaStatusOptions):
 				},
 				favicon: response.favicon ?? null,
 				srvRecord,
-				roundTripLatency: Date.now() - pingStart
+				roundTripLatency: 0, // TODO fixen
+				// roundTripLatency: Date.now() - pingStart
 			});
 		} catch (e) {
 			clearTimeout(timeout);
