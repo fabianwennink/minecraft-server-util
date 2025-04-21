@@ -1,5 +1,5 @@
 {
-	"name": "minecraft-server-util",
+	"name": "minecraft-server-util-dist",
 	"version": "5.4.4",
 	"description": "A Node.js library for Minecraft servers that can retrieve status, perform queries, and RCON into servers.",
 	"main": "dist/index.js",
